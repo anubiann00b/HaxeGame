@@ -1,3 +1,4 @@
+import mgl.DotPixelArt;
 import mgl.*;
 using mgl.Fiber;
 using mgl.Util;
@@ -21,14 +22,20 @@ class Main extends Game {
         bgmDrumSound = new Sound().setDrumMachine();
         endGameSound = new Sound().major().setMelody().addTone(.3, 10, .7).addTone(.6, 10, .4).end();
         setTitle("SNEAKY RUN");
+        trace("game init");
     }
 
     public var ballLeft:Int;
     var nextBallCount:Int;
     var time:Int;
 
+    var grid:Grid;
+
     public override function begin() {
+        trace("game begin");
+//        grid = new Grid();
         Ball.player = new Player();
+        trace("actor create");
         nextBallCount = 0;
         ballLeft = 28;
         time = 0;
@@ -36,6 +43,7 @@ class Main extends Game {
     }
 
     public override function update() {
+        trace("game update");
         var sc = Std.int(time / 1000);
         var ms = '00${time % 1000}';
         ms = ms.substr(ms.length - 3);
@@ -58,6 +66,41 @@ class Main extends Game {
         }
     }
 }
+
+class Grid extends Actor {
+
+    static inline var SIZE = 16;
+
+    var outline:DotPixelArt;
+    var fill:DotPixelArt;
+
+    var map:Array<Array<Bool>>;
+
+    public override function initialize() {
+        outline = new DotPixelArt().setColor(Color.blue).lineRect(1.0 / SIZE);
+        fill = new DotPixelArt().setColor(Color.blue.goRed()).fillRect(1.0 / SIZE);
+        setDisplayPriority(-1);
+        trace("grid init");
+    }
+
+    public override function begin() {
+        trace("grid begin");
+        map = [for (x in 0...SIZE) [for (y in 0...SIZE) false]];
+    }
+
+    public override function update() {
+        trace("grid update");
+        for (xi in 0...SIZE + 1) {
+            var x = (xi + .5) / SIZE;
+            for (yi in 0...SIZE) {
+                var y = (yi + .5) / SIZE;
+                if (map[xi][yi]) outline.setXy(x, y).d;
+            }
+        }
+        trace("grid update end");
+    }
+}
+
 class Player extends Actor {
 
     static var tickSound:Sound;
@@ -74,6 +117,7 @@ class Player extends Actor {
     }
 
     public override function update() {
+        trace("player update");
         way = position.wayTo(Mouse.position);
         if (position.distanceTo(Mouse.position) > 0.01) {
             makeMove(new Vector().addWay(way, 0.005));
