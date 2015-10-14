@@ -60,7 +60,7 @@ class Fiber {
 		if (parent != null) parent.fs.push(this);
 		else s.push(this);
 	}
-	function doBlock(block:Void -> Void):Fiber {
+	public function doBlock(block:Void -> Void):Fiber {
 		this.block = block;
 		return this;
 	}

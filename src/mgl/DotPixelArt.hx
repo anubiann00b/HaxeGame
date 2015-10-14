@@ -11,7 +11,7 @@ class DotPixelArt {
 	public function cbs(color:Color = null):DotPixelArt { return setColorBottomSpot(color); }
 	public function si(x:Float = 0, y:Float = 0, xy:Float = 0):DotPixelArt {
 		return setSpotInterval(x, y, xy);
-	}
+}
 	public function st(threshold:Float):DotPixelArt { return setSpotThreshold(threshold); }
 	public function ds(dotScale:Float = -1):DotPixelArt { return setDotScale(dotScale); }
 	public function o(x:Float = 0, y:Float = 0):DotPixelArt { return setOffset(x, y); }

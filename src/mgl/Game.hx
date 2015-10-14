@@ -376,7 +376,7 @@ class Screen {
 		pixelCount = pixelSize.xi * pixelSize.yi;
 		baseBd = new BitmapData(pixelSize.xi, pixelSize.yi, false, 0);
 		baseSprite.addChild(new Bitmap(baseBd));
-		#if js
+		#if (js || neko)
 		bd = new BitmapData(pixelSize.xi, pixelSize.yi, true, 0);
 		baseSprite.addChild(new Bitmap(bd));
 		hasBlur = false;
